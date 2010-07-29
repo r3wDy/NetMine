@@ -36,26 +36,36 @@ namespace XtremeSweeper
             Buffer = new byte[255];
         }
 
+        public int getPlayerID()
+        {
+            return m_PlayerID;
+        }
 
         void onDataInput(IAsyncResult res)
         {
+            cGameClient recieveSocket = (cGameClient)res.AsyncState;
+            int recBytes = recieveSocket.getSocket().EndReceive(res);
+            byte[] InputBuffer = recieveSocket.getBuffer();
+
+
+            //wait again for data
+            recieveSocket.getSocket().BeginReceive(getBuffer(), 0, 255, System.Net.Sockets.SocketFlags.None, onDataInput, null);
         }
 
         void onConnect(IAsyncResult res)
         {
             m_ClientSocket.EndConnect(res);
             setSocketSide(SocketSide.CLIENT);
-            m_ClientSocket.BeginReceive(getBuffer(),0,255, System.Net.Sockets.SocketFlags.None, onDataInput, null);
+            m_ClientSocket.BeginReceive(getBuffer(), 0, 255, System.Net.Sockets.SocketFlags.None, onDataInput, this);
+
         }
 
 
-        public void sendData()
+        public void sendData(byte[] i_SendBuffer)
         {
-            byte[] data = new byte[3];
-            data[0] = 255;
 
             if (isConnected())
-                m_ClientSocket.Send(data);
+                m_ClientSocket.Send(i_SendBuffer);
         }
 
 

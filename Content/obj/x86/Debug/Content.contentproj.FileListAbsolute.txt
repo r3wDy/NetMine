@@ -1,1 +1,2 @@
 F:\Eigene Dateien\Visual Studio 2008\Projects\XtremeSweeper\XtremeSweeper\Content\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Rudi\Desktop\XtremeSweeper\XtremeSweeper\Content\obj\x86\Debug\ResolveAssemblyReference.cache

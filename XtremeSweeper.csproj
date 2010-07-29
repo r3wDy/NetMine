@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="cGameClient.cs" />
     <Compile Include="cGameServer.cs" />
+    <Compile Include="cMessageFactory.cs" />
     <Compile Include="cOneField.cs" />
     <Compile Include="cPlayField.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

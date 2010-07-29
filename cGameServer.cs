@@ -12,9 +12,15 @@ namespace XtremeSweeper
         Dictionary<int,cGameClient> m_Clients;
         System.Net.Sockets.Socket m_ServerSocket;
 
+
+
         void onDataInput(IAsyncResult res)
         {
             cGameClient recieveSocket = (cGameClient)res.AsyncState;
+            int recBytes = recieveSocket.getSocket().EndReceive(res);
+            byte[] tmp = recieveSocket.getBuffer();
+
+            recieveSocket.getSocket().BeginReceive(recieveSocket.getBuffer(), 0, 255, System.Net.Sockets.SocketFlags.None, onDataInput, null);
         }
 
 
@@ -35,17 +41,28 @@ namespace XtremeSweeper
             justConnected.getSocket().BeginReceive(justConnected.getBuffer(), 0, 255, System.Net.Sockets.SocketFlags.None, onDataInput, justConnected);
             m_Clients.Add(newPlayersID, justConnected);
 
+            //Send the players id to the player
+            justConnected.sendData(new cWelcomeMsg(newPlayersID).toByteArray());
             //return to wait for new connection
             m_ServerSocket.BeginAccept(onClientConnect, null);
         }
 
-        void sendData()
+        public bool isConnected()
         {
+            return m_ServerSocket.Connected;
+        }
+
+        public void sendData(int i_ToPlayer)
+        {
+            if (!m_Clients.Keys.Contains(i_ToPlayer))
+                return;
+
+            cGameClient gClient = m_Clients[i_ToPlayer];
             byte[] data = new byte[3];
-            data[0] = 255;
+            data[0] = 133;
 
             if (isConnected())
-                m_ClientSocket.Send(data);
+                gClient.getSocket().Send(data);
         }
 
         public void waitForConnection()
@@ -76,34 +93,4 @@ namespace XtremeSweeper
 
     }
 
-    enum NW_MSGS
-    {
-        WELCOME = 0x10,
-        BYE = 0x11,
-        ERROR = 0x20,
-        CHATMSG = 0x30,
-        ACK = 0x40,
-        ACTION_CLICK = 0x50,
-        GAMEDATA_FIELD = 0x60,
-
-    }
-
-    struct NW_MSG_BASE
-    {
-        NW_MSGS MSGID;
-        int PlayerID;
-    };
-
-    struct NW_MSGS_ACTION_CLICK
-    {
-        NW_MSG_BASE Header;
-        byte Button;
-        byte XPos;
-        byte YPos;
-    }
-
-    struct NW_MSG_CHATMSG
-    {
-        NW_MSG_BASE Header;
-    }
 }

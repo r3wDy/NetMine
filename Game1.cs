@@ -44,8 +44,6 @@ namespace XtremeSweeper
 
             while (!gc.isConnected());
 
-            gc.sendData();
-
             base.Initialize();
         }
 
