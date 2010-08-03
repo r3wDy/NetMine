@@ -6,15 +6,7 @@ using System.Net;
 
 namespace XtremeSweeper
 {
-    enum PlayerState
-    {
-        PLAYING,
-        OBSERVING,
-        DEAD,
-        MENU
-    }
-
-    enum SocketSide
+    enum eSocketSide
     {
         SERVER,
         CLIENT
@@ -23,17 +15,20 @@ namespace XtremeSweeper
     class cGameClient
     {
         int m_PlayerID;
-        PlayerState m_PlayerState;    
+        bool m_ConnectedToServer;
+        bool m_IsAck;
+        int m_MissAckCounter;
+
         cPlayField m_ClientField;
-        SocketSide m_SockSide;
+        eSocketSide m_SockSide;
         Byte[] Buffer;
 
         System.Net.Sockets.Socket m_ClientSocket;
 
         public cGameClient()
         {
-            m_PlayerState = PlayerState.MENU;
             Buffer = new byte[255];
+            m_MissAckCounter = 0;
         }
 
         public int getPlayerID()
@@ -47,25 +42,91 @@ namespace XtremeSweeper
             int recBytes = recieveSocket.getSocket().EndReceive(res);
             byte[] InputBuffer = recieveSocket.getBuffer();
 
+            cBaseMessage IncomingMessage = new cBaseMessage(InputBuffer);
+            processMessage(IncomingMessage);
 
             //wait again for data
-            recieveSocket.getSocket().BeginReceive(getBuffer(), 0, 255, System.Net.Sockets.SocketFlags.None, onDataInput, null);
+            recieveSocket.getSocket().BeginReceive(getBuffer(), 0, 255, System.Net.Sockets.SocketFlags.None, onDataInput, this);
         }
 
         void onConnect(IAsyncResult res)
         {
             m_ClientSocket.EndConnect(res);
-            setSocketSide(SocketSide.CLIENT);
+            setSocketSide(eSocketSide.CLIENT);
             m_ClientSocket.BeginReceive(getBuffer(), 0, 255, System.Net.Sockets.SocketFlags.None, onDataInput, this);
 
         }
 
-
-        public void sendData(byte[] i_SendBuffer)
+        public void IncMissAck()
         {
+            m_MissAckCounter++;
+        }
 
-            if (isConnected())
-                m_ClientSocket.Send(i_SendBuffer);
+
+        public bool getIsAck()
+        {
+            return m_IsAck;
+        }
+
+        public void setIsAck(bool i_Ack)
+        {
+            m_IsAck = i_Ack;
+
+            if (m_IsAck)
+                m_MissAckCounter = 0;
+        }
+
+
+        public bool getAckHigh()
+        {
+            if (m_MissAckCounter > 250)
+                return true;
+            return false;
+        }
+
+
+        public eGameState getGameState()
+        {
+            return eGameState.CLIENTLOBBY;
+        }
+
+        public void setGameState(eGameState i_NewState)
+        {
+        }
+
+        bool processMessage(cBaseMessage i_cbm)
+        {
+            switch (i_cbm.getMsgType())
+            {
+                case NW_MSG_TYPE.WELCOME:
+                    m_PlayerID = i_cbm.getPlayerID();
+                    if(m_PlayerID != 0)
+                        m_ConnectedToServer = true;
+                    break;
+
+                case NW_MSG_TYPE.PING:
+                    //we got a ping, do nothing, hope sendData answers
+                    break;
+            }
+
+            //ACK this one
+            sendData(new cAckMessage(m_PlayerID));
+
+            return true;
+        }
+
+
+        public void sendData(cBaseMessage cbm)
+        {
+            if (m_ClientSocket.Connected)
+            {
+                m_ClientSocket.Send(cbm.asArray());
+
+                if (m_SockSide == eSocketSide.SERVER)
+                { //Server sent this one
+                    setIsAck(false); //wait for ack
+                }
+            }
         }
 
 
@@ -76,7 +137,7 @@ namespace XtremeSweeper
 
         public bool isConnected()
         {
-            return m_ClientSocket.Connected;
+            return m_ConnectedToServer;
         }
 
         public void connect(string ip)
@@ -102,12 +163,12 @@ namespace XtremeSweeper
             m_PlayerID = i_newID;
         }
 
-        public void setSocketSide(SocketSide i_SSide)
+        public void setSocketSide(eSocketSide i_SSide)
         {
             m_SockSide = i_SSide;
         }
 
-        public SocketSide getSocketSide()
+        public eSocketSide getSocketSide()
         {
            return m_SockSide;
         }

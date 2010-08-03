@@ -9,7 +9,7 @@ namespace XtremeSweeper
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (cXtremeSweeper_Game game = new cXtremeSweeper_Game())
             {
                 game.Run();
             }

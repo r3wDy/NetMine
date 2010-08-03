@@ -31,12 +31,22 @@ namespace XtremeSweeper
         cPlayField m_Parent;
         Texture2D m_SpriteFlagged;
         Texture2D m_SpriteMine;
-        Texture2D m_SpriteGeneric;
+        Texture2D m_SpriteOpen;
+        Texture2D m_SpriteClosed;
         eFieldState m_State;
 
         /*
          * ====PUBLIC KRAMS
          */
+
+        public void setGfx(Texture2D i_FieldClosed, Texture2D i_FieldMine, Texture2D i_FieldFlagged, Texture2D i_FieldOpen)
+        {
+            m_SpriteFlagged = i_FieldFlagged;
+            m_SpriteOpen = i_FieldOpen;
+            m_SpriteClosed = i_FieldClosed;
+            m_SpriteMine = i_FieldMine;
+        }
+
 
         public cOneField(cPlayField xParent,int x_XKoord,int x_YKoord)
         {
@@ -84,7 +94,7 @@ namespace XtremeSweeper
 
         public bool Render(SpriteBatch i_SBatch)
         {
-                Texture2D spriteToUse = this.m_SpriteGeneric;
+                Texture2D spriteToUse = this.m_SpriteClosed;
 
                 if (this.isFlagged())
                     spriteToUse = this.m_SpriteFlagged;

@@ -1,6 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>MenuFont.spritefont</Source>
+      <Name>MenuFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Rudi\Desktop\XtremeSweeper\XtremeSweeper\bin\x86\Debug\Content\MenuFont.xnb</Output>
+      <Time>2010-08-02T22:15:44.9000156+02:00</Time>
+    </Item>
+    <Item>
+      <Source>menuCursor.png</Source>
+      <Name>menuCursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Rudi\Desktop\XtremeSweeper\XtremeSweeper\bin\x86\Debug\Content\menuCursor.xnb</Output>
+      <Time>2010-08-02T14:36:20+02:00</Time>
+    </Item>
+    <Item>
+      <Source>FieldMine.png</Source>
+      <Name>FieldMine</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Rudi\Desktop\XtremeSweeper\XtremeSweeper\bin\x86\Debug\Content\FieldMine.xnb</Output>
+      <Time>2010-08-02T14:45:56+02:00</Time>
+    </Item>
+    <Item>
+      <Source>FieldFlagged.png</Source>
+      <Name>FieldFlagged</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Rudi\Desktop\XtremeSweeper\XtremeSweeper\bin\x86\Debug\Content\FieldFlagged.xnb</Output>
+      <Time>2010-08-02T14:46:02+02:00</Time>
+    </Item>
+    <Item>
+      <Source>FieldClosed.png</Source>
+      <Name>FieldClosed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Rudi\Desktop\XtremeSweeper\XtremeSweeper\bin\x86\Debug\Content\FieldClosed.xnb</Output>
+      <Time>2010-08-02T14:46:08+02:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
@@ -12,6 +57,26 @@
       <OutputDirectory>C:\Users\Rudi\Desktop\XtremeSweeper\XtremeSweeper\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2009-05-14T11:13:52+02:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2009-05-14T11:13:52+02:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2009-05-14T11:13:52+02:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2009-05-14T11:13:52+02:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v3.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2009-05-14T11:13:52+02:00</Value>
+      </Assembly>
       <Assembly>
         <Key>C:\Windows\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\3.0.0.0__6d5c3888ef60e27d\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
         <Value>2010-07-30T00:17:13.4941406+02:00</Value>
